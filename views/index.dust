@@ -1,0 +1,147 @@
+{>"layout" /}
+{<body}
+<d1 class= "header"> Employee Database </d1>
+<br />
+<div class = "container">
+  <div class = "table">
+    <table class =  "table table-hover table-bordered">
+        <thead class = first>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th> </th>
+          </tr>
+        </thead>
+        {#employee}
+        <tbody>
+          <tr>
+            <th>{firstname}</th>
+            <th>{lastname}</th>
+            <th>{age}</th>
+            <th>{sex}</th>
+            <th class = "center">
+              <button class="btn btn-default btn-sm edit-employee"
+                id= "edit"
+                data-target="#editFormModal"
+                data-id="{id}"
+                data-firstname="{firstname}"
+                data-lastname="{lastname}"
+                data-age="{age}"
+                data-sex="{sex}"/>
+                <span class="glyphicon glyphicon-edit"></span>
+              </button>
+              <button type="button" class="btn btn-danger btn-sm delete-employee" data-id="{id}">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button></th>
+          </tr>
+        {/employee}
+        </tbody>
+    </table>
+  </div>
+  <div class= "requests">
+    <form method="post" action="/search" class= "requests">
+      <input type="text" class="form-control search-employee" placeholder="Search" name="search" >
+        <button type="submit" class= "search search-employee">
+          <span class="glyphicon glyphicon-search"></span>
+        </button>
+    </form>
+      <button id= "add" type="button" class="btn btn-info btn-lg pull-right" >
+        <span class="glyphicon glyphicon-plus"></span> Add Employee
+      </button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="formModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form method="post" action="/add">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">Add Employee</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" class="form-control" placeholder = "First Name" name="first">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" class="form-control" placeholder= "Last Name" name="last" />
+          </div>
+          <div class="form-group">
+            <label>Age</label>
+              <input type="number" class="form-control" placeholder="Age"
+                name="age">
+          </div>
+          <div class="form-group">
+            <label>Gender (M/F)</label>
+              <input type="text" class="form-control" placeholder="M/F"
+                name="sex" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" value="Add" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="editFormModal" class="modal fade" role="dialog" aria-labelledby="editModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form method="post" action="/edit">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myEditModalLabel">Edit Employee</h4>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="edit-form-id" name="id"/>
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" class="form-control" placeholder = "First Name"
+              name="first" id="edit-form-firstname">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+              <input type="text" class="form-control" placeholder= "Last Name"
+                name="last" id="edit-form-lastname">
+          </div>
+          <div class="form-group">
+            <label>Age</label>
+              <input type="number" class="form-control" placeholder="Age"
+                name="age" id="edit-form-age">
+          </div>
+          <div class="form-group">
+            <label>Gender (M/F)</label>
+              <input type="text" class="form-control" placeholder="M/F"
+                name="sex" id="edit-form-sex">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" value="Submit" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document.getElementById("add")).on('click', function() {
+    $("#formModal").modal();
+    $('#formModal').on('show.bs.modal', function() {
+       $('#formModal').focus();
+    });
+ });
+</script>
+{/body}
