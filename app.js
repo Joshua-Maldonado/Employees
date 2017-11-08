@@ -40,7 +40,22 @@ app.get('/', function(req, res){
   });
 });
 
-app.post('/add', function(req, res){
+app.get('/employees/:id', function(req, res){
+  pg.connect(connect, function(err, client, done){
+    if(err) {
+      return console.error('error fetching client from pool', err);
+    }
+    client.query('SELECT * FROM employee where id = $1', req.params.id, function(err, result){
+      if(err) {
+        return console.error('error running query', err);
+      }
+      res.render('index', {employee: result.rows});
+      done();
+    });
+  });
+});
+
+app.post('/employees', function(req, res){
   pg.connect(connect, function(err, client, done){
     if(err) {
       return console.error('error fetching client from pool', err);
@@ -52,7 +67,7 @@ app.post('/add', function(req, res){
   });
 });
 
-app.delete('/delete/:id', function(req,res){
+app.delete('/employees/:id', function(req,res){
   pg.connect(connect, function(err, client, done){
     if(err) {
       return console.error('error fetching client from pool', err);
@@ -64,13 +79,13 @@ app.delete('/delete/:id', function(req,res){
   });
 });
 
-app.post('/edit', function(req, res){
+app.put('/employees/:id', function(req, res){
   pg.connect(connect, function(err, client, done){
     if(err) {
       return console.error('error fetching client from pool', err);
     }
     client.query("UPDATE employee SET firstname=$1, lastname=$2, age=$3, sex=$4 WHERE id = $5",
-      [req.body.first, req.body.last, req.body.age, req.body.sex, req.body.id]);
+      [req.body.first, req.body.last, req.body.age, req.body.sex, req.params.id]);
     console.log("success");
     done();
     res.redirect('/');
@@ -93,8 +108,6 @@ app.post('/search', function(req, res){
     });
   });
 });
-
-
 
 //server
 app.listen(3000, function(){
